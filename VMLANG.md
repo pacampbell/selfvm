@@ -46,6 +46,7 @@ encoded as.
   4. An instruction which contains a jump address
 
 ## Instruction encoded in 1-byte : 7 usable bits
+
 <pre>
 +--------+
 | 7-bits |
@@ -80,7 +81,7 @@ on the value of the opcode field, we can create different sub instruction types.
 +--------+--------+--------+--------+------------+
 | 4-bits | 4-bits | 4-bits | 5-bits |   4-bits   |
 +--------+--------+--------+--------+------------+
-| opcode |   rd   |   rs   |  shamt |  function  |
+| opcode |   rd   |   rs   | shamt  |  function  |
 +--------+--------+--------+--------+------------+
 </pre>
 
@@ -95,7 +96,7 @@ on the value of the opcode field, we can create different sub instruction types.
 +--------+--------+------------------------------+
 </pre>
 
-> If the flag value == 0 then we treat the immediate field as a 12-bit value
+> If the flag value == 0 then we treat the immediate field as a 12-bit value  
 > If the flag value == 1 then we use the [arm immediate encoding scheme](https://alisdair.mcdiarmid.org/arm-immediate-value-encoding/)
 
 ## Instruction encoded in 6-Bytes : 33 usable bits
@@ -108,7 +109,7 @@ on the value of the opcode field, we can create different sub instruction types.
 +---------+---------------+
 </pre>
 
-> If the opcode == 0 then this is an absolute jump address with no side effects
+> If the opcode == 0 then this is an absolute jump address with no side effects  
 > If the opcode == 1 then this is an absolute jump which sets the return address
 > register to the starting address of the next instruction
 
@@ -187,6 +188,8 @@ define different types of instructions based on encoding length.
 ### opcode == 0000
 
 ### opcode != 0000
+
+load immediate
 
 ## Instructions encoded using 5 bytes
 
