@@ -174,11 +174,13 @@ define different types of instructions based on encoding length.
 
 ## Instruction encoded in 2-bytes
 
+<pre>
 +--------+----------+--------------------------+
 | opcode | mnemonic | Description              |
 +--------+----------+--------------------------+
 |  0x0   |   jr     | jumps using a register   |
 +--------+----------+--------------------------+
+</pre>
 
 ## Instructions encoded using 4 bytes
 
@@ -188,6 +190,7 @@ define different types of instructions based on encoding length.
 
 ## Instructions encoded using 5 bytes
 
+<pre>
 +--------+----------+--------------------------+
 | opcode | mnemonic | Description              |
 +--------+----------+--------------------------+
@@ -195,6 +198,7 @@ define different types of instructions based on encoding length.
 +--------+----------+--------------------------+
 |  0x1   | jal      | jump and link with ra    |
 +--------+----------+--------------------------+
+</pre>
 
 # System call table
 
