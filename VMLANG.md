@@ -206,7 +206,9 @@ TODO
 
 # Section 3: Registers
 
-The machine has 16 registers [0,15]. All registers are 32-bits
+The machine has 16 general purpose registers [0,15]. And All registers are 32-bits.
+There also exists a single special purpose register to contain various state
+and configuration.
 
 <pre>
 +--------+------+--------------------------------+
@@ -226,23 +228,23 @@ The machine has 16 registers [0,15]. All registers are 32-bits
 +--------+------+--------------------------------+
 |   6    |  v0  | Return value and syscall value |
 +--------+------+--------------------------------+
-|   6    |  v1  | Return value                   |
+|   7    |  v1  | Return value                   |
 +--------+------+--------------------------------+
-|   7    |  g0  | General purpose and argument 0 |
+|   8    |  g0  | General purpose and argument 0 |
 +--------+------+--------------------------------+
-|   8    |  g1  | General purpose and argument 1 |
+|   9    |  g1  | General purpose and argument 1 |
 +--------+------+--------------------------------+
-|   9    |  g2  | General purpose and argument 2 |
+|  10    |  g2  | General purpose and argument 2 |
 +--------+------+--------------------------------+
-|  10    |  g3  | General purpose and argument 3 |
+|  11    |  g3  | General purpose and argument 3 |
 +--------+------+--------------------------------+
-|  11    |  g4  | General purpose                |
+|  12    |  g4  | General purpose                |
 +--------+------+--------------------------------+
-|  12    |  g5  | General Purpose                |
+|  13    |  g5  | General Purpose                |
 +--------+------+--------------------------------+
-|  13    |  g6  | General Purpose                |
+|  14    |  g6  | General Purpose                |
 +--------+------+--------------------------------+
-|  14    |  g7  | General Purpose                |
+|  15    |  g7  | General Purpose                |
 +--------+------+--------------------------------+
 </pre>
 
@@ -251,8 +253,9 @@ The machine has 16 registers [0,15]. All registers are 32-bits
 There exists a set of special registers which are used to complement the existing
 functionality of instruction set. Their format and use is documented below.
 
-All the special purpose registers are actually contained within a single 32-bit
-register. The sections can be accessed through special purpose instructions.
+The special purpose register is partitioned into different sections within
+a single 32-bit register. The sections can be accessed through special purpose
+instructions.
 
 <pre>
 +---------+--------+---------------+---------------+
