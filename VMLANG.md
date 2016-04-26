@@ -5,10 +5,10 @@ by this program.
 
 # Section 1: Core instruction set
 
-Below is a list of the core instruction set that a machine implementing this
-instruction set would need at a minimum. Section 3 lists an
-extension to these core instructions by using the assembler to translate into
-the multiple core instructions. This allows us to implement a very small and RISC
+Below is a list of the core instructions and their formats. This is the minimum
+instruction set that needs to be implemented to satisfy this design.. Section 4
+lists an extension to these core instructions by using the assembler to translate
+into the multiple core instructions. This allows us to implement a very small RISC
 like instruction set but with a variable sized instruction format similar to CISC
 machines.
 
@@ -79,18 +79,18 @@ Below, a list of all two-byte instructions can be found.
 | 0b00101 | sb       | sb rs, rd  | Stores an 8-bit byte from the register rs |
 |         |          |            | into the memory address stored in rd.     |
 +---------+----------+------------+-------------------------------------------+
-| 0b00100 | lh       | lb rd, rs  | Loads an 16-bit half word from the        |
+| 0b00110 | lh       | lh rd, rs  | Loads an 16-bit half word from the        |
 |         |          |            | address stored in rs into the register rd.|
 +---------+----------+------------+-------------------------------------------+
-| 0b00101 | sh       | sb rs, rd  | Stores an 16-bit half from the register rs|
+| 0b00111 | sh       | sh rs, rd  | Stores an 16-bit half from the register rs|
 |         |          |            | into the memory address stored in rd.     |
 +---------+----------+------------+-------------------------------------------+
-| 0b00110 | not      | not rd, rs | Performs a bitwise not on rd, and stores  |
+| 0b01000 | not      | not rd, rs | Performs a bitwise not on rd, and stores  |
 |         |          |            | the value in rs                           |
 +---------+----------+------------+-------------------------------------------+
-| 0b00111 | mul      | mul rd, rs |                                           |
+| 0b01001 | mul      | mul rd, rs |                                           |
 +---------+----------+------------+-------------------------------------------+
-| 0b01000 | div      | div rd, rs | Performs integer division. Register       |
+| 0b01010 | div      | div rd, rs | Performs integer division. Register       |
 |         |          |            | rs divides rd. The quotient is            |
 |         |          |            | stored in register v0 and the             |
 |         |          |            | remainder is stored in register v1.       |
@@ -190,7 +190,7 @@ opcode = `111110xx`
 
 Currently no described format
 
-### Section 1.1.5: Six byte instruction format
+### Section 1.1.6: Six byte instruction format
 
 opcode = `1111110x`
 
@@ -246,9 +246,102 @@ The machine has 16 registers [0,15]. All registers are 32-bits
 +--------+------+--------------------------------+
 </pre>
 
+## Section 3.1: Special registers
+
+There exists a set of special registers which are used to complement the existing
+functionality of instruction set. Their format and use is documented below.
+
+All the special purpose registers are actually contained within a single 32-bit
+register. The sections can be accessed through special purpose instructions.
+
+<pre>
++---------+--------+---------------+---------------+
+| 16-bits | 4-bits | 4-bits        | 8-bits        |
++---------+--------+---------------+---------------+
+| unused  | Mode   | modifiers     | flags         |
++---------+--------+---+---+---+---+---+---+---+---+
+| R.....R |  0000  | R | R | R | U | Z | C | S | O |
++---------+--------+---+---+---+---+---+---+---+---+
+</pre>
+
+### Section 3.1.1: Special register section description
+
+Each of the values in each of the special purpose registers are described
+below.
+
+#### Section 3.1.1.1 Flags
+
+<pre>
++--------------+---------------+----------------------------------------------+
+| abbreviation | name          | Description                                  |
++--------------+---------------+----------------------------------------------+
+| Z            | Zero flag     | If the result of the previous operation was  |
+|              |               | zero, this flag will be set.                 |
++--------------+---------------+----------------------------------------------+
+| C            | Carry flag    | If the previous operation resulted in        |
+|              |               | creating a carry bit, this flag will be set. |
++--------------+---------------+----------------------------------------------+
+| S            | Sign flag     | If the result of the previous operation was  |
+|              |               | negative, this flag will be set.             |
++--------------+---------------+----------------------------------------------+
+| O            | Overflow flag | If the previous operation resulted in an     |
+|              |               | overflow, this flag will be set.             |
++--------------+---------------+----------------------------------------------+
+</pre>
+
+#### Section 3.1.1.2 Modifiers
+
+<pre>
++--------------+---------------+----------------------------------------------+
+| abbreviation | name          | Description                                  |
++--------------+---------------+----------------------------------------------+
+| U            | Unsigned      | When U is set to one, all operations are     |
+|              |               | performed using unsigned arithmetic.         |
+|              |               | Otherwise the instructions operate on the    |
+|              |               | values as a two's complement number.         |
++--------------+---------------+----------------------------------------------+
+| R            | Reserved      | All bits marked with R are not in use and    |
+|              |               | and reserved by the instruction set to be    |
+|              |               | used in the future.                          |
++--------------+---------------+----------------------------------------------+
+</pre>
+
+#### Section 3.1.1.3 Mode
+
+The mode bits are used to configure how the system may interpret the instructions.
+Currently they are hard coded to all zeros, but can be modified in the future
+to support different types of instruction encodings.
+
+<pre>
++--------+--------------------------------------------------------------------+
+| Value  | Description                                                        |
++--------+--------------------------------------------------------------------+
+| 0b0000 | Tells the machine to decode the instructions in the format         |
+|        | described in this document.                                        |
++--------+--------------------------------------------------------------------+
+| 0b0001 |                                                                    |
++--------+                                                                    |
+| ...... |               Currently not in use                                 |
++--------+                                                                    |
+| 0b1111 |                                                                    |
++--------+--------------------------------------------------------------------+
+<pre>
+
+#### Section 3.1.1.4 Unused
+
+<pre>
++--------------+---------------+----------------------------------------------+
+| abbreviation | name          | Description                                  |
++--------------+---------------+----------------------------------------------+
+| R            | Reserved      | All bits marked with R are not in use and    |
+|              |               | and reserved by the instruction set to be    |
+|              |               | used in the future.                          |
++--------------+---------------+----------------------------------------------+
+</pre>
+
 # Section 4: System call table
 
-When the system call instruction is executed, the value used in the register $v0
+When the system call instruction is executed, the value used in the register v0
 will determine which system call will be used. The VM environment defines the
 following small set of system calls.
 
@@ -272,4 +365,12 @@ following small set of system calls.
 |   0x6   | read str  | g0 = address of dest    | The dest buffer will        |
 |         |           | g1 = max size of dest   | contain the newline         |
 +---------+-----------+-------------------------+-----------------------------+
+|   0x7   | sbrk      | g0 = number of bytes to | v0 contains the starting    |
+|         |           | allocate                | address of the allocated    |
+|         |           |                         | memory.                     |
++---------+-----------+-------------------------+-----------------------------+
 </pre>
+
+# Section 5: Programming conventions
+
+TODO
