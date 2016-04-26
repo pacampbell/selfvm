@@ -258,13 +258,13 @@ a single 32-bit register. The sections can be accessed through special purpose
 instructions.
 
 <pre>
-+---------+--------+---------------+---------------+
-| 16-bits | 4-bits | 4-bits        | 8-bits        |
-+---------+--------+---------------+---------------+
-| unused  | Mode   | modifiers     | flags         |
-+---------+--------+---+---+---+---+---+---+---+---+
-| R.....R |  0000  | R | R | R | U | Z | C | S | O |
-+---------+--------+---+---+---+---+---+---+---+---+
++---------+--------+---------------+-------------------------------+
+| 16-bits | 4-bits | 4-bits        | 8-bits                        |
++---------+--------+---------------+-------------------------------+
+| unused  | Mode   | modifiers     | flags                         |
++---------+--------+---+---+---+---+---+---+---+---+---+---+---+---+
+| R.....R |  0000  | R | R | R | U | R | R | R | R | Z | C | S | O |
++---------+--------+---+---+---+---+---+---+---+---+---+---+---+---+
 </pre>
 
 ### Section 3.1.1: Special register section description
@@ -289,6 +289,10 @@ below.
 +--------------+---------------+----------------------------------------------+
 | O            | Overflow flag | If the previous operation resulted in an     |
 |              |               | overflow, this flag will be set.             |
++--------------+---------------+----------------------------------------------+
+| R            | Reserved      | All bits marked with R are not in use and    |
+|              |               | and reserved by the instruction set to be    |
+|              |               | used in the future.                          |
 +--------------+---------------+----------------------------------------------+
 </pre>
 
