@@ -88,10 +88,10 @@ Below, a list of all two-byte instructions can be found.
 | 0b00110 | not      | not rd, rs | Performs a bitwise not on rd, and stores  |
 |         |          |            | the value in rs                           |
 +---------+----------+------------+-------------------------------------------+
-| 0b00111 | mul      | mul rs, rt |                                           |
+| 0b00111 | mul      | mul rd, rs |                                           |
 +---------+----------+------------+-------------------------------------------+
-| 0b01000 | div      | div rs, rt | Performs integer division. Register       |
-|         |          |            | rt divides rs. The quotient is            |
+| 0b01000 | div      | div rd, rs | Performs integer division. Register       |
+|         |          |            | rs divides rd. The quotient is            |
 |         |          |            | stored in register v0 and the             |
 |         |          |            | remainder is stored in register v1.       |
 +---------+----------+------------+-------------------------------------------+
