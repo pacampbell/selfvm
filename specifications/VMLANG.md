@@ -354,7 +354,7 @@ to support different types of instruction encodings.
 +--------+                                                                    |
 | 0b1111 |                                                                    |
 +--------+--------------------------------------------------------------------+
-<pre>
+</pre>
 
 #### Section 3.1.1.4 Unused
 
