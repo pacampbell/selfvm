@@ -1,7 +1,7 @@
 # VM Instruction Set
 
 This document contains the draft rules for the toy instruction set implemented
-by this program.
+by this program. We refer to this instruction set as VMLANG.
 
 # Section 1: Core instruction set
 
