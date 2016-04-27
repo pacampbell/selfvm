@@ -4,6 +4,7 @@ BIN = selfhosted
 PBIN = pselfhosted
 PAYLOAD = sample.data
 SNAME = sname
+INCLUDE = -Iinclude
 SRC = $(wildcard *.c)
 LIBS =
 
@@ -15,7 +16,7 @@ debug: CFLAGS += -g -DDEBUG
 debug: $(BIN) ## Generates a binary with debugging symbols and debug print statements.
 
 $(BIN): $(SRC) ## Generates the self hosted progam
-	$(CC) $(FLAGS) -o $@ $^ $(LIBS)
+	$(CC) $(FLAGS) $(INCLUDE) -o $@ $^ $(LIBS)
 	objcopy --add-section $(SNAME)=$(PAYLOAD) $(BIN) $(PBIN)
 
 clean: ## Removes all source binaries and object files.
