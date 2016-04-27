@@ -86,17 +86,39 @@ Below, a list of all two-byte instructions can be found.
 |         |          |            | into the memory address stored in rd.     |
 +---------+----------+------------+-------------------------------------------+
 | 0b01000 | not      | not rd, rs | Performs a bitwise not on rd, and stores  |
-|         |          |            | the value in rs                           |
+|         |          |            | the value in rs.                          |
 +---------+----------+------------+-------------------------------------------+
-| 0b01001 | mul      | mul rd, rs |                                           |
+| 0b01001 | mul      | mul rd, rs | Performs integer multiplication. Register |
+|         |          |            | rd is multiplied by register rs. The      |
+|         |          |            | lower 32-bits of the result are stored in |
+|         |          |            | v0 and the upper 32-bits are stored in v1.|
 +---------+----------+------------+-------------------------------------------+
 | 0b01010 | div      | div rd, rs | Performs integer division. Register       |
 |         |          |            | rs divides rd. The quotient is            |
 |         |          |            | stored in register v0 and the             |
 |         |          |            | remainder is stored in register v1.       |
 +---------+----------+------------+-------------------------------------------+
-
-
+| 0b01011 | push     | push rs    | Pushes the value in register rs onto the  |
+|         |          |            | stack and then moves the stack pointer    |
+|         |          |            | by 4 bytes. The direction moved is        |
+|         |          |            | is opposite of the pop instruction.       |
++---------+----------+------------+-------------------------------------------+
+| 0b01100 | pop      | pop rd     | Pops a 4 byte value from the stack into   |
+|         |          |            | the register rd. The stack pointer is     |
+|         |          |            | then moved by 4 bytes. The direction      |
+|         |          |            | moved is opposite of the push             |
+|         |          |            | instruction.                              |
++---------+----------+------------+-------------------------------------------+
+| 0b01101 | popf     | popf rd    | Sets rd to the value of the flags special |
+|         |          |            | register.                                 |
++---------+----------+------------+-------------------------------------------+
+| 0b01110 | popm     | popm rd    | Sets rd to the value of the modifier      |
+|         |          |            | special register.                         |
++---------+----------+------------+-------------------------------------------+
+| 0b01111 | pushm    | pushm rs   | Sets the modifier special register to the |
+|         |          |            | lower 4 bits of the register stored in    |
+|         |          |            | rs.                                       |
++---------+----------+------------+-------------------------------------------+
 </pre>
 
 ### Section 1.1.3: Three byte instruction format
@@ -261,7 +283,7 @@ instructions.
 +---------+--------+---------------+-------------------------------+
 | 16-bits | 4-bits | 4-bits        | 8-bits                        |
 +---------+--------+---------------+-------------------------------+
-| unused  | Mode   | modifiers     | flags                         |
+| unused  | mode   | modifiers     | flags                         |
 +---------+--------+---+---+---+---+---+---+---+---+---+---+---+---+
 | R.....R |  0000  | R | R | R | U | R | R | R | R | Z | C | S | O |
 +---------+--------+---+---+---+---+---+---+---+---+---+---+---+---+
@@ -378,6 +400,12 @@ following small set of system calls.
 +---------+-----------+-------------------------+-----------------------------+
 </pre>
 
-# Section 5: Programming conventions
+# Section 5: Universal number - unum
+
+TODO
+
+Idea: Use the modifier like for unsigned numbers?
+
+# Section 6: Programming conventions
 
 TODO
