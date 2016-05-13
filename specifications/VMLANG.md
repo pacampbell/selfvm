@@ -12,6 +12,12 @@ into the multiple core instructions. This allows us to implement a very small RI
 like instruction set but with a variable sized instruction format similar to CISC
 machines.
 
+> :information_source: The instruction set is based on a mashup of the basic
+> MIPS instruction set and details from rfc2044 (UTF-8 specification) encoding
+> scheme. Integer numbers are based on unsigned or 2's complement encodings, and
+> real numbers are based on a new format called unum which is described in the
+> document [the end of error unum computing](http://www.amazon.com/End-Error-Computing-Chapman-Computational/dp/1482239868).
+
 ## Section 1.1: Instruction format
 
 Each instruction is made of up at least 1 byte. This first byte is known as the
@@ -19,6 +25,10 @@ opcode byte. The opcode byte will contain marker bits as shown below. The marker
 bits are used as a way to determine the number of bytes used to encode the instruction.
 Using this current bit marker technique a single instruction could be encoded in a
 maximum of 6 bytes.
+
+> :information_source: In the instruction format you will see fields with the
+> names rd, rs, and rt. These are simply short hand names for the destination
+> register, and source registers 1 and 2 (t comes after s).
 
 ### Section 1.1.1: Single byte instruction format
 
