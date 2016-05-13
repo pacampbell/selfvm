@@ -1,0 +1,194 @@
+{
+  "syscall": {
+    "mnemonic": "syscall",
+    "size": 1,
+    "opcode": "0b0000000",
+    "args": []
+  },
+  "nop": {
+    "mnemonic": "nop",
+    "size": 1,
+    "opcode": "0b0000001",
+    "args": []
+  },
+  "mov": {
+    "mnemonic": "mov",
+    "size": 2,
+    "opcode": "0b00000",
+    "args": ["RD", "RS"]
+  },
+  "jr": {
+    "mnemonic": "jr",
+    "size": 2,
+    "opcode": "0b00001",
+    "args": ["RD"]
+  },
+  "lw": {
+    "mnemonic": "lw",
+    "size": 2,
+    "opcode": "0b00010",
+    "args": ["RD", "RS"]
+  },
+  "sw": {
+    "mnemonic": "sw",
+    "size": 2,
+    "opcode": "0b00011",
+    "args": ["RS", "RD"]
+  },
+  "lb": {
+    "mnemonic": "lb",
+    "size": 2,
+    "opcode": "0b00100",
+    "args": ["RD", "RS"]
+  },
+  "sb": {
+    "mnemonic": "sb",
+    "size": 2,
+    "opcode": "0b00101",
+    "args": ["RS", "RD"]
+  },
+  "lh": {
+    "mnemonic": "lh",
+    "size": 2,
+    "opcode": "0b00110",
+    "args": ["RD", "RS"]
+  },
+  "sh": {
+    "mnemonic": "sh",
+    "size": 2,
+    "opcode": "0b00111",
+    "args": ["RS", "RD"]
+  },
+  "not": {
+    "mnemonic": "not",
+    "size": 2,
+    "opcode": "0b00000",
+    "args": ["RD", "RS"]
+  },
+  "mul": {
+    "mnemonic": "mul",
+    "size": 2,
+    "opcode": "0b01001",
+    "args": ["RD", "RS"]
+  },
+  "div": {
+    "mnemonic": "div",
+    "size": 2,
+    "opcode": "0b01010",
+    "args": ["RD", "RS"]
+  },
+  "push": {
+    "mnemonic": "push",
+    "size": 2,
+    "opcode": "0b01011",
+    "args": ["RS"]
+  },
+  "pop": {
+    "mnemonic": "pop",
+    "size": 2,
+    "opcode": "0b01100",
+    "args": ["RD"]
+  },
+  "popf": {
+    "mnemonic": "popf",
+    "size": 2,
+    "opcode": "0b01101",
+    "args": ["RD"]
+  },
+  "popm": {
+    "mnemonic": "popm",
+    "size": 2,
+    "opcode": "0b01110",
+    "args": ["RD"]
+  },
+  "pushm": {
+    "mnemonic": "pushm",
+    "size": 2,
+    "opcode": "0b01111",
+    "args": ["RS"]
+  },
+  "and": {
+    "mnemonic": "and",
+    "size": 3,
+    "opcode": "0b0000",
+    "args": ["RD", "RS", "RT"]
+  },
+  "or": {
+    "mnemonic": "or",
+    "size": 3,
+    "opcode": "0b0001",
+    "args": ["RD", "RS", "RT"]
+  },
+  "xor": {
+    "mnemonic": "xor",
+    "size": 3,
+    "opcode": "0b0010",
+    "args": ["RD", "RS", "RT"]
+  },
+  "sll": {
+    "mnemonic": "sll",
+    "size": 3,
+    "opcode": "0b0100",
+    "args": ["RD", "RS", "SHAMT"]
+  },
+  "srl": {
+    "mnemonic": "srl",
+    "size": 3,
+    "opcode": "0b0101",
+    "args": ["RD", "RS", "SHAMT"]
+  },
+  "sra": {
+    "mnemonic": "sra",
+    "size": 3,
+    "opcode": "0b0110",
+    "args": ["RD", "RS", "SHAMT"]
+  },
+  "sllv": {
+    "mnemonic": "sllv",
+    "size": 3,
+    "opcode": "0b0111",
+    "args": ["RD", "RS", "RT"]
+  },
+  "srlv": {
+    "mnemonic": "srlv",
+    "size": 3,
+    "opcode": "0b1000",
+    "args": ["RD", "RS", "RT"]
+  },
+  "srav": {
+    "mnemonic": "srav",
+    "size": 3,
+    "opcode": "0b1001",
+    "args": ["RD", "RS", "RT"]
+  },
+  "add": {
+    "mnemonic": "add",
+    "size": 3,
+    "opcode": "0b1010",
+    "args": ["RD", "RS", "RT"]
+  },
+  "sub": {
+    "mnemonic": "sub",
+    "size": 3,
+    "opcode": "0b1011",
+    "args": ["RD", "RS", "RT"]
+  },
+  "li": {
+    "mnemonic": "li",
+    "size": 4,
+    "opcode": "0b000",
+    "args": ["RD", "IMM16"]
+  },
+  "lui": {
+    "mnemonic": "lui",
+    "size": 4,
+    "opcode": "0b001",
+    "args": ["RD", "IMM16"]
+  },
+  "beq": {
+    "mnemonic": "beq",
+    "size": 4,
+    "opcode": "0b010",
+    "args": ["RD", "RS", "IMM16"]
+  }
+}
