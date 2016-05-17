@@ -1,9 +1,10 @@
 CC = gcc
+CPP = g++
 CFLAGS = -Wall -Werror
-BIN = selfhosted
-PBIN = pselfhosted
+CPPFLAGS = 
+BIN = runtime
 SRC=src
-PAYLOAD = sample.data
+PAYLOAD = bin/sample.data
 SNAME = sname
 INCLUDE = -Iinclude
 SRC = $(wildcard src/*.c)
@@ -18,12 +19,11 @@ debug: $(BIN) ## Generates a binary with debugging symbols and debug print state
 
 $(BIN): $(SRC) ## Generates the self hosted progam
 	$(CC) $(FLAGS) $(INCLUDE) -o $@ $^ $(LIBS)
-	objcopy --add-section $(SNAME)=$(PAYLOAD) $(BIN) $(PBIN)
-	@mv $(PBIN) bin
-	@rm $(BIN) 
+	objcopy --add-section $(SNAME)=$(PAYLOAD) $(BIN) $(BIN)
+	@mv $(BIN) bin
 
 clean: ## Removes all source binaries and object files.
-	rm -f $(BIN) $(PBIN) *.o
+	rm -f bin/$(BIN) bin/$(PBIN) *.o
 
 help: ## Generates this help menu.
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
