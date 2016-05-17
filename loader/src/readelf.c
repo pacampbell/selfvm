@@ -33,5 +33,10 @@ void* find_section(const char *fname, const char *section_name, size_t size) {
     }
   }
 
+  // Unmap the page
+  if (munmap(program, size) == -1) {
+    fprintf(stderr, "Failed to unmap the mapped region.\n");
+  }
+
   return section;
 }

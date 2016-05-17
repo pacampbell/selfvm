@@ -2,10 +2,11 @@ CC = gcc
 CFLAGS = -Wall -Werror
 BIN = selfhosted
 PBIN = pselfhosted
+SRC=src
 PAYLOAD = sample.data
 SNAME = sname
 INCLUDE = -Iinclude
-SRC = $(wildcard *.c)
+SRC = $(wildcard src/*.c)
 LIBS =
 
 .PHONY: all clean help check
@@ -18,6 +19,8 @@ debug: $(BIN) ## Generates a binary with debugging symbols and debug print state
 $(BIN): $(SRC) ## Generates the self hosted progam
 	$(CC) $(FLAGS) $(INCLUDE) -o $@ $^ $(LIBS)
 	objcopy --add-section $(SNAME)=$(PAYLOAD) $(BIN) $(PBIN)
+	@mv $(PBIN) bin
+	@rm $(BIN) 
 
 clean: ## Removes all source binaries and object files.
 	rm -f $(BIN) $(PBIN) *.o
