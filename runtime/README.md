@@ -1,4 +1,4 @@
-# Self hosted program
+# Runtime
 
 Sample program which reads instructions from within and executes them.
 
