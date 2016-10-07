@@ -189,13 +189,12 @@ Below a list of all three-byte instructions can be found.
 opcode = `11110xxx`
 
 <pre>
-+--------+--------+--------+--------+-----------+
-| 5-bits | 3-bits | 4-bits | 4-bits | 16-bits   |
-+--------+--------+--------+--------+-----------+
-| marker | opcode | rd     | rs     | immediate |
-+--------+--------+--------+--------+-----------+
++--------+--------+--------+--------+-----------+-----------+
+| 5-bits | 3-bits | 4-bits | 4-bits | 8-bits    | x-bytes   |
++--------+--------+--------+--------+-----------+-----------+
+| marker | opcode | rd     | rs     | fmt       | immediate |
++--------+--------+--------+--------+-----------+-----------+
 </pre>
-
 
 Below a list of all four-byte instructions can be found.
 
@@ -203,30 +202,90 @@ Below a list of all four-byte instructions can be found.
 +--------+----------+-------------------+-------------------------------------+
 | opcode | mnemonic | Usage             | Description                         |
 +--------+----------+-------------------+-------------------------------------+
-| 0b000  | li       | li rd, immed      | Stores immediate into the lower     |
-|        |          |                   | 16-bits of of rd.                   |
+| 0b000  | li       | li rd, immed      | Stores immediate into the register  |
+|        |          |                   | rd.                                 |
 +--------+----------+-------------------+-------------------------------------+
-| 0b001  | lui      | lui rd, immed     | Stores immediate into the upper     |
-|        |          |                   | 16-bits of of rd.                   |
+| 0b001  | j        | j label           | Sets the IP to the address of the   |
+|        |          |                   | label and jumps.                    |
 +--------+----------+-------------------+-------------------------------------+
 | 0b010  | beq      | beq rd, rs, immed | If the values in the register rs    |
 |        |          |                   | and rd are equivalent, jump by      |
 |        |          |                   | +/- immed bytes from the current pc |
 +--------+----------+-------------------+-------------------------------------+
+| 0b011  |          |                   |                                     |
++--------+----------+-------------------+-------------------------------------+
+| 0b100  |          |                   |                                     |
++--------+----------+-------------------+-------------------------------------+
+| 0b101  |          |                   |                                     |
++--------+----------+-------------------+-------------------------------------+
+| 0b110  |          |                   |                                     |
++--------+----------+-------------------+-------------------------------------+
+| 0b111  |          |                   |                                     |
++--------+----------+-------------------+-------------------------------------+
+</pre>
+
+#### Section 1.1.4.1: fmt field format
+
+<pre>
++--------+---------------+
+| 4-bits | 4-bits        |
++--------+---------------+
+| size   | encoding      |
++--------+---+---+---+---+
+| bbbb   | S | 1 | R | 2 |
++--------+---+---+---+---+
 </pre>
 
 
-### Section 1.1.5: Five byte instruction format
+The `fmt` field is divided into two different regions. The `size` region determines
+the size of the immediate value in bytes. The encoding region determines how the
+immediate is encoded.
+
+##### Section 1.1.4.1.1: size
+
+<pre>
++--------+---------------+
+| Value  | Size in bytes |
++--------+---------------+
+| 0b0000 | 1-byte        |
++--------+---------------+
+| 0b0001 | 2-bytes       |
++--------+---------------+
+| 0b0010 | 3-bytes       |
++--------+---------------+
+| 0b0011 | 4-bytes       |
++--------+---------------+
+| 0b0100 | Reserved for  |
+| ...... | future use    |
+| 0b1111 |               |
++--------+---------------+
+</pre>
+
+##### Section 1.1.4.1.1: encoding
+
+<pre>
++-------+--------------------+
+| value | Encoding           |
++-------+--------------------+
+| 2     | Two's complement   |
++-------+--------------------+
+| R     | Real number (unum) |
++-------+--------------------+
+| 1     | Ones complement    |
++-------+--------------------+
+| S     | Signed Magnitude   |
++-------+--------------------+
+</pre>
+
+None of these flags should be set in conjunction with each other.
+
+### Section 1.1.5: unused markers
 
 opcode = `111110xx`
-
-Currently no described format
-
-### Section 1.1.6: Six byte instruction format
-
+and
 opcode = `1111110x`
 
-Currently no described format
+Currently have no described format
 
 # Section 2: Pseudo Instructions
 
@@ -378,44 +437,12 @@ to support different types of instruction encodings.
 +--------------+---------------+----------------------------------------------+
 </pre>
 
-# Section 4: System call table
-
-When the system call instruction is executed, the value used in the register v0
-will determine which system call will be used. The VM environment defines the
-following small set of system calls.
-
-<pre>
-+---------+-----------+-------------------------+-----------------------------+
-| syscall |   name    | arguments               |           results           |
-+---------+-----------+-------------------------+-----------------------------+
-|   0x0   |   exit    | g0 = exit code          |             N/A             |
-+---------+-----------+-------------------------+-----------------------------+
-|   0x1   | print int | g0 = integer to print   |             N/A             |
-+---------+-----------+-------------------------+-----------------------------+
-|   0x2   | print chr | g0 = character to print |             N/A             |
-+---------+-----------+-------------------------+-----------------------------+
-|   0x3   | print str | g0 = null terminated    |             N/A             |
-|         |           | string to print         |                             |
-+---------+-----------+-------------------------+-----------------------------+
-|   0x4   | read int  |                         | v0 contains integer read    |
-+---------+-----------+-------------------------+-----------------------------+
-|   0x5   | read chr  |                         | v0 contains character read  |
-+---------+-----------+-------------------------+-----------------------------+
-|   0x6   | read str  | g0 = address of dest    | The dest buffer will        |
-|         |           | g1 = max size of dest   | contain the newline         |
-+---------+-----------+-------------------------+-----------------------------+
-|   0x7   | sbrk      | g0 = number of bytes to | v0 contains the starting    |
-|         |           | allocate                | address of the allocated    |
-|         |           |                         | memory.                     |
-+---------+-----------+-------------------------+-----------------------------+
-</pre>
-
-# Section 5: Universal number - unum
+# Section 4: Universal number - unum
 
 TODO
 
 Idea: Use the modifier like for unsigned numbers?
 
-# Section 6: Programming conventions
+# Section 5: Programming conventions
 
 TODO

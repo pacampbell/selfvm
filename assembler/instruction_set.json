@@ -177,18 +177,18 @@
     "mnemonic": "li",
     "size": 4,
     "opcode": "0b000",
-    "args": ["RD", "IMM16"]
+    "args": ["RD", "IMM"]
   },
-  "lui": {
-    "mnemonic": "lui",
+  "j": {
+    "mnemonic": "j",
     "size": 4,
     "opcode": "0b001",
-    "args": ["RD", "IMM16"]
+    "args": ["RD", "LABEL|IMM"]
   },
   "beq": {
     "mnemonic": "beq",
     "size": 4,
     "opcode": "0b010",
-    "args": ["RD", "RS", "IMM16"]
+    "args": ["RD", "RS", "IMM"]
   }
 }

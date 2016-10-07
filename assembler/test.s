@@ -8,6 +8,7 @@ main:
   li $v0, 1
   mov $g0, $g2 # $g0 = $g2
   syscall
+exit:
   # Exit cleanly
   li $v0, 0
   li $g0, 0
