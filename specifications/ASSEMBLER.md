@@ -84,3 +84,45 @@ keyword.
 | .end_macro |                    |                                           |
 +------------+--------------------+-------------------------------------------+
 </pre>
+
+# Assembler prefixes
+
+Some instructions which use immediate values can be prepended with a prefix to denote the size of the immediate. If no
+prefix is given, then the size will default to 4-bytes.
+
+
+## Size chart
+<pre>
++-------------+-----------------+
+| Name        | Size (in bytes) |
++-------------+-----------------+
+| byte        | 1 byte          |
++-------------+-----------------+
+| half word   | 2 bytes         |
++-------------+-----------------+
+| word        | 4 bytes         |
++-------------+-----------------+
+| double word | 8 bytes         |
++-------------+-----------------+
+| quad word   | 16 bytes        |
++-------------+-----------------+
+</pre>
+
+## Prefix Chart
+<pre>
++--------+----------+-------------+-------------------+-------------+
+| prefix | size     | name        | example usage     | Supported ? |
++--------+----------+-------------+-------------------+-------------+
+| b      | 1 byte   | byte        | lib rd, immediate | yes         |
++--------+----------+-------------+-------------------+-------------+
+| h      | 2 bytes  | half word   | lih rd, immediate | yes         |
++--------+----------+-------------+-------------------+-------------+
+| w      | 4 bytes  | word        | liw rd, immediate | yes         |
++--------+----------+-------------+-------------------+-------------+
+| d      | 8 bytes  | double word | lid rd, immediate | no          |
++--------+----------+-------------+-------------------+-------------+
+| q      | 16 bytes | quad word   | liq rd, immediate | no          |
++--------+----------+-------------+-------------------+-------------+
+| none   | 4 bytes  | word        | li rd, immediate  | yes         |
++--------+----------+-------------+-------------------+-------------+
+</pre>
