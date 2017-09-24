@@ -232,10 +232,9 @@ Below a list of all four-byte instructions can be found.
 +--------+---------------+
 | size   | encoding      |
 +--------+---+---+---+---+
-| bbbb   | S | 1 | R | 2 |
+| bbbb   | R | F | U | 2 |
 +--------+---+---+---+---+
 </pre>
-
 
 The `fmt` field is divided into two different regions. The `size` region determines
 the size of the immediate value in bytes. The encoding region determines how the
@@ -264,17 +263,18 @@ immediate is encoded.
 ##### Section 1.1.4.1.1: encoding
 
 <pre>
-+-------+--------------------+
-| value | Encoding           |
-+-------+--------------------+
-| 2     | Two's complement   |
-+-------+--------------------+
-| R     | Real number (unum) |
-+-------+--------------------+
-| 1     | Ones complement    |
-+-------+--------------------+
-| S     | Signed Magnitude   |
-+-------+--------------------+
++-------+---------------------+
+| value | Encoding            |
++-------+---------------------+
+| 2     | Two's complement    |
++-------+---------------------+
+| U     | Real number (unum)  |
++-------+---------------------+
+| F     | Real number (float) |
++-------+---------------------+
+| R     | Reserved for        |
+|       | future use          |
++-------+---------------------+
 </pre>
 
 None of these flags should be set in conjunction with each other.

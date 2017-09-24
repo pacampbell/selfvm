@@ -1,9 +1,9 @@
-# VM Instruction Set
+= VM Instruction Set
 
 This document contains the draft rules for the toy instruction set implemented
 by this program. We refer to this instruction set as VMLANG.
 
-# Section 1: Core instruction set
+== Section 1: Core instruction set
 
 Below is a list of the core instructions and their formats. This is the minimum
 instruction set that needs to be implemented to satisfy this design.. Section 4
@@ -18,7 +18,7 @@ machines.
 > real numbers are based on a new format called unum which is described in the
 > document [the end of error unum computing](http://www.amazon.com/End-Error-Computing-Chapman-Computational/dp/1482239868).
 
-## Section 1.1: Instruction format
+=== Section 1.1: Instruction format
 
 Each instruction is made of up at least 1 byte. This first byte is known as the
 opcode byte. The opcode byte will contain marker bits as shown below. The marker
@@ -30,21 +30,21 @@ maximum of 6 bytes.
 > names rd, rs, and rt. These are simply short hand names for the destination
 > register, and source registers 1 and 2 (t comes after s).
 
-### Section 1.1.1: Single byte instruction format
+=== Section 1.1.1: Single byte instruction format
 
 first byte = `0xxxxxxx`
 
-<pre>
+```plaintext
 +--------+--------+
 | 1-bit  | 7-bits |
 +--------+--------+
 | marker | opcode |
 +--------+--------+
-</pre>
+```
 
 Below a list of all single-byte instructions can be found.
 
-<pre>
+```plaintext
 +------------+----------+---------+-------------------------------------------+
 | opcode     | mnemonic | Usage   | Description                               |
 +------------+----------+---------+-------------------------------------------+
@@ -53,23 +53,23 @@ Below a list of all single-byte instructions can be found.
 +------------+----------+---------+-------------------------------------------+
 | 0b0000001  | nop      | nop     | Performs a no operation; wastes a cycle.  |
 +------------+----------+---------+-------------------------------------------+
-</pre>
+```
 
-### Section 1.1.2: Two byte instruction format
+=== Section 1.1.2: Two byte instruction format
 
 first byte = `110xxxxx`
 
-<pre>
+```plaintext
 +--------+--------+--------+--------+
 | 3-bits | 5-bits | 4-bits | 4-bits |
 +--------+--------+--------+--------+
 | marker | opcode | rd     | rs     |
 +--------+--------+--------+--------+
-</pre>
+```
 
 Below, a list of all two-byte instructions can be found.
 
-<pre>
+```plaintext
 +---------+----------+------------+-------------------------------------------+
 | opcode  | mnemonic | Usage      | Description                               |
 +---------+----------+------------+-------------------------------------------+
@@ -129,23 +129,23 @@ Below, a list of all two-byte instructions can be found.
 |         |          |            | lower 4 bits of the register stored in    |
 |         |          |            | rs.                                       |
 +---------+----------+------------+-------------------------------------------+
-</pre>
+```
 
-### Section 1.1.3: Three byte instruction format
+=== Section 1.1.3: Three byte instruction format
 
 opcode = `1110xxxx`
 
-<pre>
+```plaintext
 +--------+--------+--------+--------+--------+--------+
 | 4-bits | 4-bits | 4-bits | 4-bits | 4-bits | 4-bits |
 +--------+--------+--------+--------+--------+--------+
 | marker | opcode | rd     | rs     | rt     | shamt  |
 +--------+--------+--------+--------+--------+--------+
-</pre>
+```
 
 Below a list of all three-byte instructions can be found.
 
-<pre>
+```plaintext
 +--------+----------+-------------------+-------------------------------------+
 | opcode | mnemonic | Usage             | Description                         |
 +--------+----------+-------------------+-------------------------------------+
@@ -181,24 +181,23 @@ Below a list of all three-byte instructions can be found.
 +--------+----------+-------------------+-------------------------------------+
 | 0b1111 |          |                   |                                     |
 +--------+----------+-------------------+-------------------------------------+
+```
 
-</pre>
-
-### Section 1.1.4: Four byte instruction format
+=== Section 1.1.4: Four byte instruction format
 
 opcode = `11110xxx`
 
-<pre>
+```plaintext
 +--------+--------+--------+--------+-----------+-----------+
 | 5-bits | 3-bits | 4-bits | 4-bits | 8-bits    | x-bytes   |
 +--------+--------+--------+--------+-----------+-----------+
 | marker | opcode | rd     | rs     | fmt       | immediate |
 +--------+--------+--------+--------+-----------+-----------+
-</pre>
+```
 
 Below a list of all four-byte instructions can be found.
 
-<pre>
+```plaintext
 +--------+----------+-------------------+-------------------------------------+
 | opcode | mnemonic | Usage             | Description                         |
 +--------+----------+-------------------+-------------------------------------+
@@ -222,28 +221,27 @@ Below a list of all four-byte instructions can be found.
 +--------+----------+-------------------+-------------------------------------+
 | 0b111  |          |                   |                                     |
 +--------+----------+-------------------+-------------------------------------+
-</pre>
+```
 
-#### Section 1.1.4.1: fmt field format
+==== Section 1.1.4.1: fmt field format
 
-<pre>
+```plaintext
 +--------+---------------+
 | 4-bits | 4-bits        |
 +--------+---------------+
 | size   | encoding      |
 +--------+---+---+---+---+
-| bbbb   | S | 1 | R | 2 |
+| bbbb   | R | F | U | 2 |
 +--------+---+---+---+---+
-</pre>
-
+```
 
 The `fmt` field is divided into two different regions. The `size` region determines
 the size of the immediate value in bytes. The encoding region determines how the
 immediate is encoded.
 
-##### Section 1.1.4.1.1: size
+==== Section 1.1.4.1.1: size
 
-<pre>
+```plaintext
 +--------+---------------+
 | Value  | Size in bytes |
 +--------+---------------+
@@ -259,27 +257,28 @@ immediate is encoded.
 | ...... | future use    |
 | 0b1111 |               |
 +--------+---------------+
-</pre>
+```
 
-##### Section 1.1.4.1.1: encoding
+==== Section 1.1.4.1.1: encoding
 
-<pre>
-+-------+--------------------+
-| value | Encoding           |
-+-------+--------------------+
-| 2     | Two's complement   |
-+-------+--------------------+
-| R     | Real number (unum) |
-+-------+--------------------+
-| 1     | Ones complement    |
-+-------+--------------------+
-| S     | Signed Magnitude   |
-+-------+--------------------+
-</pre>
+```plaintext
++-------+---------------------+
+| value | Encoding            |
++-------+---------------------+
+| 2     | Two's complement    |
++-------+---------------------+
+| U     | Real number (unum)  |
++-------+---------------------+
+| F     | Real number (float) |
++-------+---------------------+
+| R     | Reserved for        |
+|       | future use          |
++-------+---------------------+
+```
 
 None of these flags should be set in conjunction with each other.
 
-### Section 1.1.5: unused markers
+==== Section 1.1.5: unused markers
 
 opcode = `111110xx`
 and
@@ -287,7 +286,7 @@ opcode = `1111110x`
 
 Currently have no described format
 
-# Section 2: Pseudo Instructions
+== Section 2: Pseudo Instructions
 
 Aside from the core instructions, an assembler for the language can add additional
 functionality by translating pseudo instructions into multiple core instructions.
@@ -295,13 +294,13 @@ Below we present a list of pseudo instructions which an assembler should transla
 
 TODO
 
-# Section 3: Registers
+== Section 3: Registers
 
 The machine has 16 general purpose registers [0,15]. And All registers are 32-bits.
 There also exists a single special purpose register to contain various state
 and configuration.
 
-<pre>
+```plaintext
 +--------+------+--------------------------------+
 | number | name | description                    |
 +--------+------+--------------------------------+
@@ -337,9 +336,9 @@ and configuration.
 +--------+------+--------------------------------+
 |  15    |  g7  | General Purpose                |
 +--------+------+--------------------------------+
-</pre>
+```
 
-## Section 3.1: Special registers
+=== Section 3.1: Special registers
 
 There exists a set of special registers which are used to complement the existing
 functionality of instruction set. Their format and use is documented below.
@@ -348,7 +347,7 @@ The special purpose register is partitioned into different sections within
 a single 32-bit register. The sections can be accessed through special purpose
 instructions.
 
-<pre>
+```plaintext
 +---------+--------+---------------+-------------------------------+
 | 16-bits | 4-bits | 4-bits        | 8-bits                        |
 +---------+--------+---------------+-------------------------------+
@@ -356,16 +355,16 @@ instructions.
 +---------+--------+---+---+---+---+---+---+---+---+---+---+---+---+
 | R.....R |  0000  | R | R | R | U | R | R | R | R | Z | C | S | O |
 +---------+--------+---+---+---+---+---+---+---+---+---+---+---+---+
-</pre>
+```
 
-### Section 3.1.1: Special register section description
+==== Section 3.1.1: Special register section description
 
 Each of the values in each of the special purpose registers are described
 below.
 
-#### Section 3.1.1.1 Flags
+==== Section 3.1.1.1 Flags
 
-<pre>
+```plaintext
 +--------------+---------------+----------------------------------------------+
 | abbreviation | name          | Description                                  |
 +--------------+---------------+----------------------------------------------+
@@ -385,11 +384,11 @@ below.
 |              |               | and reserved by the instruction set to be    |
 |              |               | used in the future.                          |
 +--------------+---------------+----------------------------------------------+
-</pre>
+```
 
-#### Section 3.1.1.2 Modifiers
+==== Section 3.1.1.2 Modifiers
 
-<pre>
+```plaintext
 +--------------+---------------+----------------------------------------------+
 | abbreviation | name          | Description                                  |
 +--------------+---------------+----------------------------------------------+
@@ -402,15 +401,15 @@ below.
 |              |               | and reserved by the instruction set to be    |
 |              |               | used in the future.                          |
 +--------------+---------------+----------------------------------------------+
-</pre>
+```
 
-#### Section 3.1.1.3 Mode
+==== Section 3.1.1.3 Mode
 
 The mode bits are used to configure how the system may interpret the instructions.
 Currently they are hard coded to all zeros, but can be modified in the future
 to support different types of instruction encodings.
 
-<pre>
+```plaintext
 +--------+--------------------------------------------------------------------+
 | Value  | Description                                                        |
 +--------+--------------------------------------------------------------------+
@@ -423,11 +422,11 @@ to support different types of instruction encodings.
 +--------+                                                                    |
 | 0b1111 |                                                                    |
 +--------+--------------------------------------------------------------------+
-</pre>
+```
 
-#### Section 3.1.1.4 Unused
+==== Section 3.1.1.4 Unused
 
-<pre>
+```plaintext
 +--------------+---------------+----------------------------------------------+
 | abbreviation | name          | Description                                  |
 +--------------+---------------+----------------------------------------------+
@@ -435,14 +434,14 @@ to support different types of instruction encodings.
 |              |               | and reserved by the instruction set to be    |
 |              |               | used in the future.                          |
 +--------------+---------------+----------------------------------------------+
-</pre>
+```
 
-# Section 4: Universal number - unum
+== Section 4: Universal number - unum
 
 TODO
 
 Idea: Use the modifier like for unsigned numbers?
 
-# Section 5: Programming conventions
+== Section 5: Programming conventions
 
 TODO
