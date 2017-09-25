@@ -205,7 +205,7 @@ Below a list of all four-byte instructions can be found.
 | 0b000  | li       | li rd, immed      | Stores immediate into the register  |
 |        |          |                   | rd.                                 |
 +--------+----------+-------------------+-------------------------------------+
-| 0b001  | j        | j label           | Sets the IP to the address of the   |
+| 0b001  | j        | j label|immed     | Sets the IP to the address of the   |
 |        |          |                   | label and jumps.                    |
 +--------+----------+-------------------+-------------------------------------+
 | 0b010  | beq      | beq rd, rs, immed | If the values in the register rs    |
