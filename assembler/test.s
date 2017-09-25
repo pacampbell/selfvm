@@ -13,3 +13,8 @@ exit:
   li $v0, 0
   li $g0, 0
   syscall
+
+  j main
+  j exit
+  j 0xdeadbeef
+  j 0xdeadc0de

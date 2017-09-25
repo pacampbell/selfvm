@@ -183,7 +183,7 @@
     "mnemonic": "j",
     "size": 4,
     "opcode": "0b001",
-    "args": ["RD", "LABEL|IMM"]
+    "args": ["LABEL|IMM"]
   },
   "beq": {
     "mnemonic": "beq",
